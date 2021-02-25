@@ -5,6 +5,9 @@
  */
 package Vista;
 
+import Controlador.Almacen;
+import javax.swing.JFrame;
+
 /**
  *
  * @author nicolebrito
@@ -16,6 +19,39 @@ public class VistaNintendo extends javax.swing.JFrame {
      */
     public VistaNintendo() {
         initComponents();
+        this.setVisible(true);
+        this.setSize(850, 650);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    
+    public void actualizar(){
+        
+        while(true){
+            
+            this.CantProductoresBotones.setText(Integer.toString(Almacen.numProductoresBotones));
+            this.CantProductoresPantallas.setText(Integer.toString(Almacen.numProductoresPantallas));
+            this.CantProductoresJoystick.setText(Integer.toString(Almacen.numProductoresJoysticks));
+            this.CantProductoresTarjetasSD.setText(Integer.toString(Almacen.numProductoresTarjetasSD));
+            
+            this.CantidadBotones.setText(Integer.toString(Almacen.cantidadBotones));
+            this.CantidadPantallasNormales.setText(Integer.toString(Almacen.cantidadPantallasNormales));
+            this.CantidadPantallasTactiles.setText(Integer.toString(Almacen.cantidadPantallasTactiles));
+            this.CantidadJoystick.setText(Integer.toString(Almacen.cantidadJoysticks));
+            this.CantidadTarjetasSD1.setText(Integer.toString(Almacen.cantidadTarjetasSD));
+            
+            this.CantEnsambladores.setText(Integer.toString(Almacen.numEnsambladores));
+            
+            this.CantidadConsolasDisponibles.setText(Integer.toString(Almacen.cantidadConsolas));
+            
+            this.CantidadDias1.setText(Integer.toString(Almacen.diasRestantesDespacho));
+            
+            this.EstadoJefe1.setText(Almacen.estadoJefe);
+            this.EstadoGerente.setText(Almacen.estadoGerente);
+            
+        }
+        
     }
 
     /**
@@ -86,7 +122,10 @@ public class VistaNintendo extends javax.swing.JFrame {
         TituloProductores.setFont(new java.awt.Font("Malayalam Sangam MN", 1, 18)); // NOI18N
         TituloProductores.setText("Número de Productores de la Compañía (puedes contratar o despedir)");
 
+        CantProductoresBotones.setEditable(false);
         CantProductoresBotones.setBackground(new java.awt.Color(255, 102, 102));
+        CantProductoresBotones.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        CantProductoresBotones.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         CantProductoresBotones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CantProductoresBotonesActionPerformed(evt);
@@ -111,7 +150,10 @@ public class VistaNintendo extends javax.swing.JFrame {
 
         TituloCantidadProductoresBotones.setText("Botones");
 
+        CantProductoresPantallas.setEditable(false);
         CantProductoresPantallas.setBackground(new java.awt.Color(255, 102, 102));
+        CantProductoresPantallas.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        CantProductoresPantallas.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         CantProductoresPantallas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CantProductoresPantallasActionPerformed(evt);
@@ -144,7 +186,10 @@ public class VistaNintendo extends javax.swing.JFrame {
             }
         });
 
+        CantProductoresJoystick.setEditable(false);
         CantProductoresJoystick.setBackground(new java.awt.Color(255, 102, 102));
+        CantProductoresJoystick.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        CantProductoresJoystick.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         CantProductoresJoystick.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CantProductoresJoystickActionPerformed(evt);
@@ -161,7 +206,10 @@ public class VistaNintendo extends javax.swing.JFrame {
 
         TituloCantidadProductoresJoystick.setText("Joystick");
 
+        CantProductoresTarjetasSD.setEditable(false);
         CantProductoresTarjetasSD.setBackground(new java.awt.Color(255, 102, 102));
+        CantProductoresTarjetasSD.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        CantProductoresTarjetasSD.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         CantProductoresTarjetasSD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CantProductoresTarjetasSDActionPerformed(evt);
@@ -197,7 +245,10 @@ public class VistaNintendo extends javax.swing.JFrame {
             }
         });
 
+        CantEnsambladores.setEditable(false);
         CantEnsambladores.setBackground(new java.awt.Color(255, 102, 102));
+        CantEnsambladores.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        CantEnsambladores.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         CantEnsambladores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CantEnsambladoresActionPerformed(evt);
@@ -214,7 +265,10 @@ public class VistaNintendo extends javax.swing.JFrame {
 
         TituloCantidadBotones.setText("Botones:");
 
+        CantidadBotones.setEditable(false);
         CantidadBotones.setBackground(new java.awt.Color(255, 102, 102));
+        CantidadBotones.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        CantidadBotones.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         CantidadBotones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CantidadBotonesActionPerformed(evt);
@@ -223,7 +277,10 @@ public class VistaNintendo extends javax.swing.JFrame {
 
         TituloCantidadPantallasNormales.setText("Pantallas Normales:");
 
+        CantidadPantallasTactiles.setEditable(false);
         CantidadPantallasTactiles.setBackground(new java.awt.Color(255, 102, 102));
+        CantidadPantallasTactiles.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        CantidadPantallasTactiles.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         CantidadPantallasTactiles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CantidadPantallasTactilesActionPerformed(evt);
@@ -232,7 +289,10 @@ public class VistaNintendo extends javax.swing.JFrame {
 
         TituloCantidadJoystick.setText("Joystick:");
 
+        CantidadJoystick.setEditable(false);
         CantidadJoystick.setBackground(new java.awt.Color(255, 102, 102));
+        CantidadJoystick.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        CantidadJoystick.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         CantidadJoystick.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CantidadJoystickActionPerformed(evt);
@@ -241,14 +301,20 @@ public class VistaNintendo extends javax.swing.JFrame {
 
         TituloCantidadTarjetasSD.setText("Tarjetas SD:");
 
+        CantidadConsolasDisponibles.setEditable(false);
         CantidadConsolasDisponibles.setBackground(new java.awt.Color(255, 102, 102));
+        CantidadConsolasDisponibles.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        CantidadConsolasDisponibles.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         CantidadConsolasDisponibles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CantidadConsolasDisponiblesActionPerformed(evt);
             }
         });
 
+        CantidadPantallasNormales.setEditable(false);
         CantidadPantallasNormales.setBackground(new java.awt.Color(255, 102, 102));
+        CantidadPantallasNormales.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        CantidadPantallasNormales.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         CantidadPantallasNormales.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CantidadPantallasNormalesActionPerformed(evt);
@@ -257,7 +323,10 @@ public class VistaNintendo extends javax.swing.JFrame {
 
         TituloCantidadPantallasTactiles.setText("Pantallas Táctiles:");
 
+        CantidadTarjetasSD1.setEditable(false);
         CantidadTarjetasSD1.setBackground(new java.awt.Color(255, 102, 102));
+        CantidadTarjetasSD1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        CantidadTarjetasSD1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         CantidadTarjetasSD1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CantidadTarjetasSD1ActionPerformed(evt);
@@ -270,7 +339,10 @@ public class VistaNintendo extends javax.swing.JFrame {
         TituloDiasRestantes.setFont(new java.awt.Font("Malayalam Sangam MN", 1, 18)); // NOI18N
         TituloDiasRestantes.setText("Días que faltan para el despliegue Global:");
 
+        EstadoGerente.setEditable(false);
         EstadoGerente.setBackground(new java.awt.Color(255, 102, 102));
+        EstadoGerente.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        EstadoGerente.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         EstadoGerente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EstadoGerenteActionPerformed(evt);
@@ -284,14 +356,20 @@ public class VistaNintendo extends javax.swing.JFrame {
 
         TituloGerente.setText("Gerente:");
 
+        CantidadDias1.setEditable(false);
         CantidadDias1.setBackground(new java.awt.Color(255, 102, 102));
+        CantidadDias1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        CantidadDias1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         CantidadDias1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CantidadDias1ActionPerformed(evt);
             }
         });
 
+        EstadoJefe1.setEditable(false);
         EstadoJefe1.setBackground(new java.awt.Color(255, 102, 102));
+        EstadoJefe1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        EstadoJefe1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         EstadoJefe1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EstadoJefe1ActionPerformed(evt);
@@ -311,17 +389,17 @@ public class VistaNintendo extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBaseLayout.createSequentialGroup()
                         .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBaseLayout.createSequentialGroup()
-                                .addComponent(DisminuirProductoresJoystick, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(DisminuirProductoresJoystick, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(CantProductoresJoystick, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(AumentarProductoresJoystick, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(AumentarProductoresJoystick, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBaseLayout.createSequentialGroup()
-                                .addComponent(DisminuirProductoresBotones, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(DisminuirProductoresBotones, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(CantProductoresBotones, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(AumentarProductoresBotones, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(AumentarProductoresBotones, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(PanelBaseLayout.createSequentialGroup()
                                 .addGap(69, 69, 69)
                                 .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -340,17 +418,17 @@ public class VistaNintendo extends javax.swing.JFrame {
                                         .addComponent(TituloCantidadProductoresTarjetasSD)
                                         .addGap(58, 58, 58))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBaseLayout.createSequentialGroup()
-                                .addComponent(DisminuirProductoresTarjetasSD, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(DisminuirProductoresTarjetasSD, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(CantProductoresTarjetasSD, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(AumentarProductoresTarjetasSD, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(AumentarProductoresTarjetasSD, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBaseLayout.createSequentialGroup()
-                                .addComponent(DisminuirProductoresPantallas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(DisminuirProductoresPantallas, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(CantProductoresPantallas, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(AumentarProductoresPantallas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(AumentarProductoresPantallas, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(165, 165, 165))))
             .addGroup(PanelBaseLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
@@ -363,14 +441,13 @@ public class VistaNintendo extends javax.swing.JFrame {
                                 .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(PanelBaseLayout.createSequentialGroup()
                                         .addComponent(TituloEnsambladores)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(DisminuirEnsambladores, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                                        .addComponent(DisminuirEnsambladores, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBaseLayout.createSequentialGroup()
-                                        .addGap(0, 14, Short.MAX_VALUE)
+                                        .addGap(0, 0, Short.MAX_VALUE)
                                         .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(CantidadTarjetasSD1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(CantidadDias1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(PanelBaseLayout.createSequentialGroup()
                                                 .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                     .addGroup(PanelBaseLayout.createSequentialGroup()
@@ -396,7 +473,7 @@ public class VistaNintendo extends javax.swing.JFrame {
                                     .addGroup(PanelBaseLayout.createSequentialGroup()
                                         .addComponent(CantEnsambladores, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(AumentarEnsambladores, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(AumentarEnsambladores, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addGroup(PanelBaseLayout.createSequentialGroup()
                                             .addComponent(TituloCantidadPantallasTactiles)
@@ -409,18 +486,25 @@ public class VistaNintendo extends javax.swing.JFrame {
                         .addGap(23, 23, 23))
                     .addGroup(PanelBaseLayout.createSequentialGroup()
                         .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(TituloDiasRestantes, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(PanelBaseLayout.createSequentialGroup()
                                 .addComponent(TituloEstados, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(TituloJefe, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(EstadoJefe1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(58, 58, 58)
+                                .addComponent(EstadoJefe1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(TituloDiasRestantes, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBaseLayout.createSequentialGroup()
                                 .addComponent(TituloGerente, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(27, 27, 27)
-                                .addComponent(EstadoGerente, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(PanelBaseLayout.createSequentialGroup()
+                                .addComponent(CantidadDias1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(PanelBaseLayout.createSequentialGroup()
+                                .addGap(85, 85, 85)
+                                .addComponent(EstadoGerente)))
+                        .addContainerGap())))
         );
         PanelBaseLayout.setVerticalGroup(
             PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -435,34 +519,34 @@ public class VistaNintendo extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(CantProductoresPantallas, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(DisminuirProductoresPantallas)
-                            .addComponent(AumentarProductoresPantallas))
+                            .addComponent(DisminuirProductoresPantallas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(AumentarProductoresPantallas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(TituloCantidadProductoresTarjetasSD)
                             .addGroup(PanelBaseLayout.createSequentialGroup()
                                 .addGap(22, 22, 22)
                                 .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(CantProductoresTarjetasSD, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(DisminuirProductoresTarjetasSD)
-                                    .addComponent(AumentarProductoresTarjetasSD)))))
+                                    .addComponent(DisminuirProductoresTarjetasSD, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(AumentarProductoresTarjetasSD, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(PanelBaseLayout.createSequentialGroup()
                         .addComponent(TituloCantidadProductoresBotones)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(CantProductoresBotones, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(DisminuirProductoresBotones)
-                            .addComponent(AumentarProductoresBotones))
+                            .addComponent(DisminuirProductoresBotones, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(AumentarProductoresBotones, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(TituloCantidadProductoresJoystick)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(CantProductoresJoystick, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(DisminuirProductoresJoystick)
-                            .addComponent(AumentarProductoresJoystick))))
+                            .addComponent(DisminuirProductoresJoystick, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(AumentarProductoresJoystick, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(36, 36, 36)
                 .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(DisminuirEnsambladores)
+                    .addComponent(DisminuirEnsambladores, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(CantEnsambladores, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(AumentarEnsambladores)
+                    .addComponent(AumentarEnsambladores, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TituloEnsambladores))
                 .addGap(18, 18, 18)
                 .addComponent(TituloCantidadesProducidas)
@@ -486,7 +570,7 @@ public class VistaNintendo extends javax.swing.JFrame {
                 .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TituloDiasRestantes)
                     .addComponent(CantidadDias1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TituloEstados)
                     .addComponent(TituloJefe)
@@ -500,11 +584,11 @@ public class VistaNintendo extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(PanelBase, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelBase, javax.swing.GroupLayout.PREFERRED_SIZE, 606, Short.MAX_VALUE)
+            .addComponent(PanelBase, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
         );
 
         pack();

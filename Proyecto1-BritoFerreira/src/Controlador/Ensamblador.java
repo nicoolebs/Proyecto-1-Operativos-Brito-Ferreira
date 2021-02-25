@@ -69,10 +69,10 @@ public class Ensamblador extends Thread{
                     this.semExclusionJoysticks.release();
                     this.semExclusionTarjetasSD.release();
                 
-                this.semProduccionBotones.acquire(5);
-                this.semProduccionPantallas.acquire(2);
-                this.semProduccionJoysticks.acquire(2);
-                this.semProduccionTarjetasSD.acquire();
+                this.semProduccionBotones.release(5);
+                this.semProduccionPantallas.release(2);
+                this.semProduccionJoysticks.release(2);
+                this.semProduccionTarjetasSD.release();
                 
                 Thread.sleep(Almacen.duracionDia);
                 this.semGerente.acquire();

@@ -5,7 +5,7 @@
  */
 package Controlador;
 
-import Vista.VistaSimulador;
+import Vista.VistaNintendo;
 import java.util.concurrent.Semaphore;
 import javax.swing.JOptionPane;
 
@@ -46,8 +46,8 @@ public class Almacen {
     public static int numEnsambladores;
     public static int cantidadConsolas;
     public static int diasRestantesDespacho;
-    public static String estadoJefe;
-    public static String estadoGerente;
+    public static volatile String estadoJefe;
+    public static volatile String estadoGerente;
     
 //    Semáforos de exclusión mutua
     public Semaphore semExclusionBotones;
@@ -80,6 +80,9 @@ public class Almacen {
 //    Array para los ensambladores
     public Ensamblador[] ensambladores;
     
+    public Gerente gerente;
+    public Jefe jefe;
+    
     
 //    Constructor del almacen
     public Almacen() {
@@ -87,7 +90,7 @@ public class Almacen {
 //        Si el archivo se lee correctamente entonces se inicia el almacen
         if(Archivo.leerArchivo()){
             
-            VistaSimulador vista = new VistaSimulador();
+            VistaNintendo vista = new VistaNintendo();
             
 //            Inicializar contadores de producción
             this.cantidadBotones = 0;
@@ -135,10 +138,11 @@ public class Almacen {
 //            Inicializar los arrays de ensambladores
             this.ensambladores = new Ensamblador[ensambladoresMaximos];
             
-//            ger = new Gerente(semJG, semGE);
-//            jef = new Jefe(semJG);
+            gerente = new Gerente(semJefe, semGerente);
+            jefe = new Jefe(semJefe);
             iniciarProduccion();
-//            vista.actualizar();
+            
+            vista.actualizar();
             
 //        Si el archivo no se lee correctamente se cierra el programa
         }else{
@@ -175,8 +179,8 @@ public class Almacen {
             ensambladores[i].start();
         }
         
-//        ger.start();
-//        jef.start();
+        gerente.start();
+        jefe.start();
     }
     
     public void contratar(int tipo){

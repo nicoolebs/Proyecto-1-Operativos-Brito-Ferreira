@@ -27,7 +27,7 @@ public class Archivo {
             BufferedReader bf = new BufferedReader(new FileReader(new File("ParametrosIniciales.txt")));
             
 //            Se leen cada uno de los parámetros del archivo
-            Almacen.duracionDia = Integer.parseInt(bf.readLine().split("=")[1]);
+            Almacen.duracionDia = Integer.parseInt(bf.readLine().split("=")[1]) * 1000;
             Almacen.diasDespacho = Integer.parseInt(bf.readLine().split("=")[1]);
             Almacen.capacidadBotones = Integer.parseInt(bf.readLine().split("=")[1]);
             Almacen.capacidadPantallas = Integer.parseInt(bf.readLine().split("=")[1]);
