@@ -1,93 +1,134 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controlador;
 
 import java.util.concurrent.Semaphore;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Giselle Ferreira
- */
-public class Productor extends Thread{
-    
-    private int tipoPieza;
-    private int tiempoProduccion;
-    private boolean isContratado;
-    private Semaphore semExclusion, semProduccion, semEnsamblaje;
+//CLASE PRODUCTOR QUE MANEJA TODOS LOS PRODUCTORES DE LOS DISTINTOS PRODUCTOS
+public class Productor extends Thread {
 
-    public Productor(int tipoPieza, int tiempoProduccion, boolean isContratado, Semaphore semExclusion, Semaphore semProduccion, Semaphore semEnsamblaje) {
+//    VARIABLES
+    private int tipoPieza; //Para saber el tipo de productor que esta ejecutándose
+    private int tiempoProduccion; //Para saber el tiempo de producción del tipo de productor
+    private int cantProduccion; //Para saber la cantidad piezas que produce el productor
+    private boolean isContratado; //Para contratar o despedir al productor
+    private Semaphore semExclusion, semProduccion, semEnsamblaje; //Semáforos para problema productor/consumidor
+
+//    CONSTRUCTOR DEL PRODUCTOR
+    public Productor(int tipoPieza, int tiempoProduccion, int cantProduccion, Semaphore semExclusion, Semaphore semProduccion, Semaphore semEnsamblaje) {
         this.tipoPieza = tipoPieza;
         this.tiempoProduccion = tiempoProduccion;
-        this.isContratado = isContratado;
+        this.cantProduccion = cantProduccion;
         this.semExclusion = semExclusion;
         this.semProduccion = semProduccion;
         this.semEnsamblaje = semEnsamblaje;
+        this.isContratado = true;
     }
-    
-    public void run(){
-        
+
+//    MÉTODO RUN DE PRODUCTORES
+    @Override
+    public void run() {
+
 //        El productor funciona mientras no sea despedido
-        while(isContratado){
-            
+        while (isContratado) {
+
             try {
-                this.semProduccion.acquire();
-                    Thread.sleep(Almacen.duracionDia * this.tiempoProduccion);
-                    this.semExclusion.acquire();
 
-                        switch (this.tipoPieza){
+//                Los productores producen según el tipo de productor que sea
+                switch (this.tipoPieza) {
 
-        //                    Producción de botones
-                            case 1:
-                                Almacen.cantidadBotones += 2;
-                                break;
+                    //                    Producción de botones
+                    case 1:
+                        
+                        //Se reduce capacidad de producción de botones
+                        //Dormir para producir botones
+                        //Asignar exclusividad de la variable del almacen de botones
+                        //Aumentar cantidad producida de botones
+                        //Liberar exclusividad de la variable del almacen de botones
+                        //Se aumenta la capacidad de consumo de botones
+                        
+                        this.semProduccion.acquire(cantProduccion); 
+                            Thread.sleep(Almacen.duracionDia * this.tiempoProduccion); 
+                            this.semExclusion.acquire(); 
+                                Almacen.cantidadBotones += 2; 
+                            this.semExclusion.release(); 
+                        this.semEnsamblaje.release(cantProduccion); 
+                        break;
 
-        //                    Producción de pantallas normales
-                            case 2:
-                                Almacen.cantidadPantallasNormales++;
-                                break;
-
-        //                    Producción de joysticks    
-                            case 3:
-                                Almacen.cantidadJoysticks++;
-                                break;
-
-        //                    Producción de lectores de tarjetas SD
-                            case 4:
-                                Almacen.cantidadTarjetasSD++;
-                                break;
-
-                        }
-
-                    this.semExclusion.release();
-                    
-//                    Producción de la pantalla táctil
-                    if(this.tipoPieza == 2){
-                        this.semProduccion.acquire();
-                            Thread.sleep(Almacen.duracionDia * this.tiempoProduccion * 2);
+                    //                    Producción de pantallas
+                    case 2:
+                        
+                        //Se reduce capacidad de producción de las dos pantallas
+                        //Dormir para producir pantalla normal
+                        //Asignar exclusividad de la variable del almacen de pantallas
+                        //Aumentar cantidad producida de pantallas normales
+                        //Liberar exclusividad de la variable del almacen de pantallas
+                        //Dormir para producir pantalla táctil
+                        //Asignar exclusividad de la variable del almacen de pantallas
+                        //Aumentar cantidad producida de pantallas táctiles
+                        //Liberar exclusividad de la variable del almacen de pantallas
+                        //Se aumenta la capacidad de consumo de las dos pantallas
+                        
+                        this.semProduccion.acquire(cantProduccion); 
+                            Thread.sleep(Almacen.duracionDia * this.tiempoProduccion); 
                             this.semExclusion.acquire();
-
-                                Almacen.cantidadPantallasTactiles++;
-
+                                Almacen.cantidadPantallasNormales++;
                             this.semExclusion.release();
-                        this.semEnsamblaje.release();
-                    }
-                
-                this.semEnsamblaje.release();
-                
+
+                            Thread.sleep(Almacen.duracionDia * this.tiempoProduccion * 2); 
+                            this.semExclusion.acquire();
+                                Almacen.cantidadPantallasTactiles++;
+                            this.semExclusion.release();
+                        this.semEnsamblaje.release(cantProduccion);
+                        break;
+
+                    //                    Producción de joysticks    
+                    case 3:
+                        
+                        //Se reduce capacidad de producción de joysticks
+                        //Dormir para producir joysticks
+                        //Asignar exclusividad de la variable del almacen de joysticks
+                        //Aumentar cantidad producida de joysticks
+                        //Liberar exclusividad de la variable del almacen de joysticks
+                        //Se aumenta la capacidad de consumo de joysticks
+                        
+                        this.semProduccion.acquire(cantProduccion);
+                            Thread.sleep(Almacen.duracionDia * this.tiempoProduccion);
+                            this.semExclusion.acquire();
+                                Almacen.cantidadJoysticks++;
+                            this.semExclusion.release();
+                        this.semEnsamblaje.release(cantProduccion);
+                        break;
+
+                    //                    Producción de lectores de tarjetas SD
+                    case 4:
+                        
+                        //Se reduce capacidad de producción de lectores de tarjetas SD
+                        //Dormir para producir lectores de tarjetas SD
+                        //Asignar exclusividad de la variable del almacen de lectores de tarjetas SD
+                        //Aumentar cantidad producida de lectores de tarjetas SD
+                        //Liberar exclusividad de la variable del almacen de lectores de tarjetas SD
+                        //Se aumenta la capacidad de consumo de lectores de tarjetas SD
+                        
+                        this.semProduccion.acquire(cantProduccion);
+                            Thread.sleep(Almacen.duracionDia * this.tiempoProduccion);
+                            this.semExclusion.acquire();
+                                Almacen.cantidadTarjetasSD++;
+                            this.semExclusion.release();
+                        this.semEnsamblaje.release(cantProduccion);
+                        break;
+
+                }
+
+//                En caso de que ocurra una excepción entonces se muestra un mensaje de error
             } catch (InterruptedException ex) {
                 JOptionPane.showMessageDialog(null, "Error, los productores estan fallando.", "ERROR DE PRODUCCIÓN", JOptionPane.ERROR_MESSAGE);
             }
-            
+
         }
-        
+
     }
 
+//    GETTERS Y SETTERS DE TODAS LAS VARIABLES
     public int getTipoPieza() {
         return tipoPieza;
     }
@@ -102,6 +143,14 @@ public class Productor extends Thread{
 
     public void setTiempoProduccion(int tiempoProduccion) {
         this.tiempoProduccion = tiempoProduccion;
+    }
+
+    public int getCantProduccion() {
+        return cantProduccion;
+    }
+
+    public void setCantProduccion(int cantProduccion) {
+        this.cantProduccion = cantProduccion;
     }
 
     public boolean isIsContratado() {

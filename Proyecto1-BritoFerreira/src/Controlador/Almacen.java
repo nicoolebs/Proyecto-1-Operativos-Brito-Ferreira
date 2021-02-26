@@ -1,23 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controlador;
 
 import Vista.VistaNintendo;
 import java.util.concurrent.Semaphore;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Giselle Ferreira
- */
+//CLASE DEL ALMACEN DE NINTENDO
 public class Almacen {
     
-//    Variables estáticas de los parámetros iniciales del simulador que se toman del archivo txt
+//    VARIABLES
+    
+//    Datos leídos del archivo TXT
     public static int duracionDia;
-    public static int diasDespacho; 
+    public static int diasDespliegue; 
     public static int capacidadBotones; 
     public static int capacidadPantallas; 
     public static int capacidadJoysticks;
@@ -33,7 +27,7 @@ public class Almacen {
     public static int ensambladoresIniciales;
     public static int ensambladoresMaximos;
     
-//    Variables de la vista
+//    Datos que se muestran en la interfaz gráfica
     public static int numProductoresBotones;
     public static int numProductoresPantallas;
     public static int numProductoresJoysticks;
@@ -44,294 +38,365 @@ public class Almacen {
     public static volatile int cantidadJoysticks;
     public static volatile int cantidadTarjetasSD;
     public static int numEnsambladores;
-    public static int cantidadConsolas;
-    public static int diasRestantesDespacho;
+    public static volatile int cantidadConsolas;
+    public static volatile int cantidadConsolasUltimoDespliegue;
+    public static volatile int diasRestantesDespliegue;
     public static volatile String estadoJefe;
     public static volatile String estadoGerente;
     
-//    Semáforos de exclusión mutua
-    public Semaphore semExclusionBotones;
-    public Semaphore semExclusionPantallas;
-    public Semaphore semExclusionJoysticks;
-    public Semaphore semExclusionTarjetasSD;
+//    Semáforos de exclusión mutua para modificar las piezas producidas o consumidas de lis almacenes
+    public static Semaphore semExclusionBotones;
+    public static Semaphore semExclusionPantallas;
+    public static Semaphore semExclusionJoysticks;
+    public static Semaphore semExclusionTarjetasSD;
     
-//    Semáforos producción
-    public Semaphore semProduccionBotones;
-    public Semaphore semProduccionPantallas;
-    public Semaphore semProduccionJoysticks;
-    public Semaphore semProduccionTarjetasSD;
+//    Semáforos de los productores que manejan los límites de producción por cada almacen
+    public static Semaphore semProduccionBotones;
+    public static Semaphore semProduccionPantallas;
+    public static Semaphore semProduccionJoysticks;
+    public static Semaphore semProduccionTarjetasSD;
     
-//    Semáforos de ensamblador
-    public Semaphore semEnsamblajeBotones;
-    public Semaphore semEnsamblajePantallas;
-    public Semaphore semEnsamblajeJoysticks;
-    public Semaphore semEnsamblajeTarjetasSD;
+//    Semáforos de los ensambladores que manejan las capacidades de consumo de cada almacen
+    public static Semaphore semEnsamblajeBotones;
+    public static Semaphore semEnsamblajePantallas;
+    public static Semaphore semEnsamblajeJoysticks;
+    public static Semaphore semEnsamblajeTarjetasSD;
     
-//    Semáforos lector / escritor
-    public Semaphore semJefe;
-    public Semaphore semGerente;
+//    Semáforos del Jefe que modifica el paso de los días y del gerente que realiza el despliegue de las consolas
+    public static Semaphore semJefe;
+    public static Semaphore semGerente;
     
-//    Array con para los productores
-    public Productor[] productoresBotones;
-    public Productor[] productoresPantallas;
-    public Productor[] productoresJoysticks;
-    public Productor[] productoresTarjertasSD;
+//    Array para ubicar a los productores de cada tipo al momento de contratar o despedir
+    public static Productor[] productoresBotones;
+    public static Productor[] productoresPantallas;
+    public static Productor[] productoresJoysticks;
+    public static Productor[] productoresTarjertasSD;
     
-//    Array para los ensambladores
-    public Ensamblador[] ensambladores;
+//    Array para ubicar los ensambladores al momento de contratar o despedir
+    public static Ensamblador[] ensambladores;
     
-    public Gerente gerente;
-    public Jefe jefe;
+//    Hilos del Jefe y el Gerente
+    public static Gerente gerente;
+    public static Jefe jefe;
     
-    
-//    Constructor del almacen
+//    CONSTRUCTOR DEL ALMACEN
     public Almacen() {
         
-//        Si el archivo se lee correctamente entonces se inicia el almacen
+//        Si el archivo se lee correctamente entonces se inicia la simulación del almacen
         if(Archivo.leerArchivo()){
             
-            VistaNintendo vista = new VistaNintendo();
-            
-//            Inicializar contadores de producción
-            this.cantidadBotones = 0;
-            this.cantidadPantallasNormales = 0;
-            this.cantidadPantallasTactiles = 0;
-            this.cantidadJoysticks = 0;
-            this.cantidadTarjetasSD = 0;
-            this.cantidadConsolas = 0;
-            
-//            Inicializar cantidad de productores
+//            Inicializar cantidad de productores con los valores iniciales del archivo txt
             this.numProductoresBotones = this.productoresInicialesBotones;
             this.numProductoresJoysticks = this.productoresInicialesJoysticks;
             this.numProductoresPantallas = this.productoresInicialesPantallas;
             this.numProductoresTarjetasSD = this.productoresInicialesTarjetasSD;
             this.numEnsambladores = this.ensambladoresIniciales;
             
-//            Inicializar semáforos de exclusión mutua
+//            Inicializar contadores de la producción del almacen
+            this.cantidadBotones = 0;
+            this.cantidadPantallasNormales = 0;
+            this.cantidadPantallasTactiles = 0;
+            this.cantidadJoysticks = 0;
+            this.cantidadTarjetasSD = 0;
+            this.cantidadConsolas = 0;
+            this.cantidadConsolasUltimoDespliegue = 0;
+            
+//            Inicializar el contador de los días para el despliegue
+            this.diasRestantesDespliegue = this.diasDespliegue;
+            
+//            Inicializar los estados del Jefe y del Gerente
+            this.estadoGerente = "Recién contratado";
+            this.estadoJefe = "Recién contratado";
+            
+//            Inicializar semáforos de exclusión mutua de los almacenes
             this.semExclusionBotones = new Semaphore(1);
             this.semExclusionJoysticks = new Semaphore(1);
             this.semExclusionPantallas = new Semaphore(1);
             this.semExclusionTarjetasSD = new Semaphore(1);
             
-//            Inicializar semáforos de lector / escritor
-            this.semJefe = new Semaphore(1);
-            this.semGerente = new Semaphore(1);
-            
-//            Inicializar semáforos de produccion con capacidad máxima
+//            Inicializar semáforos de producción con la capacidad máxima de cada almacen, porque estos semáforos son los almacenes de cada pieza
             this.semProduccionBotones = new Semaphore(capacidadBotones);
             this.semProduccionPantallas = new Semaphore(capacidadPantallas);
             this.semProduccionJoysticks = new Semaphore(capacidadJoysticks);
             this.semProduccionTarjetasSD = new Semaphore(capacidadTarjetasSD);
             
-//            Inicializar semáforos de ensamblaje en 0 porque la capacidad de consumo inicial es 0
+//            Inicializar semáforos de ensamblaje en 0, porque la capacidad de consumo inicial es 0
             this.semEnsamblajeBotones = new Semaphore(0);
             this.semEnsamblajePantallas = new Semaphore(0);
             this.semEnsamblajeJoysticks = new Semaphore(0);
             this.semEnsamblajeTarjetasSD = new Semaphore(0);
             
-//            Inicializar los arrays de los productores
+//            Inicializar semáforos del Jefe y del Gerente
+            this.semJefe = new Semaphore(1);
+            this.semGerente = new Semaphore(1);
+            
+//            Inicializar los arrays de los productores con el tamaño especificado en el archivo txt
             this.productoresBotones = new Productor[productoresMaximosBotones];
             this.productoresPantallas = new Productor[productoresMaximosPantallas];
             this.productoresJoysticks = new Productor[productoresMaximosJoysticks];
             this.productoresTarjertasSD = new Productor[productoresMaximosTarjetasSD];
             
-//            Inicializar los arrays de ensambladores
+//            Inicializar los arrays de ensambladores con el tamaño especificado en el archivo txt
             this.ensambladores = new Ensamblador[ensambladoresMaximos];
             
-            gerente = new Gerente(semJefe, semGerente);
-            jefe = new Jefe(semJefe);
+//            Inicializar la interfaz gráfica
+            VistaNintendo vista = new VistaNintendo();
+            
+//            Arrancar la producción de la simulación del almacen
             iniciarProduccion();
             
+//            Poner la interfaz gráfica a actualizarse constantemente
             vista.actualizar();
             
-//        Si el archivo no se lee correctamente se cierra el programa
         }else{
+//        Si el archivo no se lee correctamente, se cierra el programa
             System.exit(0);
         }
         
     }
     
-//    Método para iniciar la producción de la fábrica
+//    MÉTODO PARA ARRANCAR LA PRODUCCIÓN INICIAL DE LA SIMULACIÓN
     public void iniciarProduccion(){
         
+//        Recorrer el array de los hilos de los productores de botones iniciales, inicializarlos y arrancar la ejecución
         for (int i = 0; i < productoresInicialesBotones; i++) {
-            productoresBotones[i] = new Productor(1, 1, true, semExclusionBotones, semProduccionBotones, semEnsamblajeBotones);
+            productoresBotones[i] = new Productor(1, 1, 2, semExclusionBotones, semProduccionBotones, semEnsamblajeBotones);
             productoresBotones[i].start();
         }
             
+//        Recorrer el array de los hilos de los productores de pantallas iniciales, inicializarlos y arrancar la ejecución
         for (int i = 0; i < productoresInicialesPantallas; i++) {
-            productoresPantallas[i] = new Productor(2, 1, true, semExclusionPantallas, semProduccionPantallas, semEnsamblajePantallas);
+            productoresPantallas[i] = new Productor(2, 1, 2, semExclusionPantallas, semProduccionPantallas, semEnsamblajePantallas);
             productoresPantallas[i].start();
         }
             
+//        Recorrer el array de los hilos de los productores de joysticks iniciales, inicializarlos y arrancar la ejecución
         for (int i = 0; i < productoresInicialesJoysticks; i++) {
-            productoresJoysticks[i] = new Productor(3, 2, true, semExclusionJoysticks, semProduccionJoysticks, semEnsamblajeJoysticks);
+            productoresJoysticks[i] = new Productor(3, 2, 1, semExclusionJoysticks, semProduccionJoysticks, semEnsamblajeJoysticks);
             productoresJoysticks[i].start();
         }
             
+//        Recorrer el array de los hilos de los productores de lectores de tarjetas SD iniciales, inicializarlos y arrancar la ejecución
         for (int i = 0; i < productoresInicialesTarjetasSD; i++) {
-            productoresTarjertasSD[i] = new Productor(4, 3, true, semExclusionTarjetasSD, semProduccionTarjetasSD, semEnsamblajeTarjetasSD);
+            productoresTarjertasSD[i] = new Productor(4, 3, 1, semExclusionTarjetasSD, semProduccionTarjetasSD, semEnsamblajeTarjetasSD);
             productoresTarjertasSD[i].start();
         }
         
+//        Recorrer el array de los hilos de los ensambladores iniciales, inicializarlos y arrancar la ejecución
         for (int i = 0; i < ensambladoresIniciales; i++) {
             ensambladores[i] = new Ensamblador(semExclusionBotones, semExclusionPantallas, semExclusionJoysticks, semExclusionTarjetasSD, semProduccionBotones, semProduccionPantallas, semProduccionJoysticks, semProduccionTarjetasSD, semEnsamblajeBotones, semEnsamblajePantallas, semEnsamblajeJoysticks, semEnsamblajeTarjetasSD, semGerente);
             ensambladores[i].start();
         }
         
+//            Inicializar los hilos del Jefe y del Gerente
+        this.gerente = new Gerente(semGerente, semJefe);
+        this.jefe = new Jefe(semJefe);
+        
+//        Arrancar los hilos del Jefe y del Gerente
         gerente.start();
         jefe.start();
     }
     
-    public void contratar(int tipo){
+//    MÉTODO PARA CONTRATAR NUEVOS PRODUCTORES O ENSAMBLADORES
+    public static void contratar(int tipo){
+        
+//        Condicional para contratar el tipo de productor o ensamblador correspondiente
         switch(tipo){
+            
             case 1:
+                
+//            Contratar productor de botones
+//            Recorrer el array de los productores de botones
+//            Crear un nuevo productor en la última posición donde no hay un productor o hay uno que fue despedido
+//            Inicializar un nuevo productor, arrancar el hilo y aumentar el contador de productores de botones
+                
                 for(int i = 0; i < productoresBotones.length; i++){
-                    if(productoresBotones[i] == null){
-                        productoresBotones[i] = new Productor(1, 1, true, semExclusionBotones, semProduccionBotones, semEnsamblajeBotones);
+                    if(productoresBotones[i] == null || !productoresBotones[i].isIsContratado()){
+                        productoresBotones[i] = new Productor(1, 1, 2, semExclusionBotones, semProduccionBotones, semEnsamblajeBotones);
                         productoresBotones[i].start();
                         numProductoresBotones++;
                         break; 
-                    }
-                    if(!productoresBotones[i].isIsContratado()){
-                        productoresBotones[i].setIsContratado(true);
-                        productoresBotones[i].start();
-                        numProductoresBotones++;
-                        break;
                     }
                 }
                 break;
                 
             case 2:
+                
+//            Contratar productor de pantallas
+//            Recorrer el array de los productores de pantallas
+//            Crear un nuevo productor en la última posición donde no hay un productor o hay uno que fue despedido
+//            Inicializar un nuevo productor, arrancar el hilo y aumentar el contador de productores de pantallas
+                
                 for(int i = 0; i < productoresPantallas.length; i++){
-                    if(productoresPantallas[i] == null){
-                        productoresPantallas[i] = new Productor(2, 1, true, semExclusionPantallas, semProduccionPantallas, semEnsamblajePantallas);
+                    if(productoresPantallas[i] == null || !productoresPantallas[i].isIsContratado()){
+                        productoresPantallas[i] = new Productor(2, 1, 2, semExclusionPantallas, semProduccionPantallas, semEnsamblajePantallas);
                         productoresPantallas[i].start();
                         numProductoresPantallas++;
                         break; 
-                    }
-                    if(!productoresPantallas[i].isIsContratado()){
-                        productoresPantallas[i].setIsContratado(true);
-                        productoresPantallas[i].start();
-                        numProductoresPantallas++;
-                        break;
                     }
                 }
                 break;
                 
             case 3:
+                
+//            Contratar productor de joysticks
+//            Recorrer el array de los productores de joysticks
+//            Crear un nuevo productor en la última posición donde no hay un productor o hay uno que fue despedido
+//            Inicializar un nuevo productor, arrancar el hilo y aumentar el contador de productores de joysticks
+                
                 for(int i = 0; i < productoresJoysticks.length; i++){
-                    if(productoresJoysticks[i] == null){
-                        productoresJoysticks[i] = new Productor(3, 2, true, semExclusionJoysticks, semProduccionJoysticks, semEnsamblajeJoysticks);
+                    if(productoresJoysticks[i] == null || !productoresJoysticks[i].isIsContratado()){
+                        productoresJoysticks[i] = new Productor(3, 2, 1, semExclusionJoysticks, semProduccionJoysticks, semEnsamblajeJoysticks);
                         productoresJoysticks[i].start();
                         numProductoresJoysticks++;
                         break; 
-                    }
-                    if(!productoresJoysticks[i].isIsContratado()){
-                        productoresJoysticks[i].setIsContratado(true);
-                        productoresJoysticks[i].start();
-                        numProductoresJoysticks++;
-                        break;
                     }
                 }
                 break;
                 
             case 4:
+                
+//            Contratar productor de lectores de tarjetas SD
+//            Recorrer el array de los productores de lectores de tarjetas SD
+//            Crear un nuevo productor en la última posición donde no hay un productor o hay uno que fue despedido
+//            Inicializar un nuevo productor, arrancar el hilo y aumentar el contador de productores de lectores de tarjetas SD
+                
                 for(int i = 0; i < productoresTarjertasSD.length; i++){
-                    if(productoresTarjertasSD[i] == null){
-                        productoresTarjertasSD[i] = new Productor(4, 3, true, semExclusionTarjetasSD, semProduccionTarjetasSD, semEnsamblajeTarjetasSD);
+                    if(productoresTarjertasSD[i] == null || !productoresTarjertasSD[i].isIsContratado()){
+                        productoresTarjertasSD[i] = new Productor(4, 3, 1, semExclusionTarjetasSD, semProduccionTarjetasSD, semEnsamblajeTarjetasSD);
                         productoresTarjertasSD[i].start();
                         numProductoresTarjetasSD++;
                         break; 
-                    }
-                    if(!productoresTarjertasSD[i].isIsContratado()){
-                        productoresTarjertasSD[i].setIsContratado(true);
-                        productoresTarjertasSD[i].start();
-                        numProductoresTarjetasSD++;
-                        break;
                     }
                 }
                 break;
                 
             case 5:
+                
+//            Contratar ensamblador
+//            Recorrer el array de los ensambladores
+//            Crear un nuevo ensamblador en la última posición donde no hay un ensamblador o hay uno que fue despedido
+//            Inicializar un nuevo ensamblador, arrancar el hilo y aumentar el contador de ensambladores
+                
                 for(int i = 0; i < ensambladores.length; i++){
-                    if(ensambladores[i] == null){
+                    if(ensambladores[i] == null || !ensambladores[i].isIsContratado()){
                         ensambladores[i] = new Ensamblador(semExclusionBotones, semExclusionPantallas, semExclusionJoysticks, semExclusionTarjetasSD, semProduccionBotones, semProduccionPantallas, semProduccionJoysticks, semProduccionTarjetasSD, semEnsamblajeBotones, semEnsamblajePantallas, semEnsamblajeJoysticks, semEnsamblajeTarjetasSD, semGerente);
                         ensambladores[i].start();
                         numEnsambladores++;
                         break; 
                     }
-                    if(!ensambladores[i].isIsContratado()){
-                        ensambladores[i].setIsContratado(true);
-                        ensambladores[i].start();
-                        numEnsambladores++;
-                        break;
-                    }
                 }
                 break;
                 
+//                En caso error, mostrar un mensaje de error
             default:
                 JOptionPane.showMessageDialog(null, "Error, al contratar.", "ERROR DE CONTRATACIÓN", JOptionPane.ERROR_MESSAGE);
 
         }
     }
-                         
-    public void despedir(int tipo){
+         
+//    MÉTODO PARA DESPEDIR UN PRODUCTOR O ENSAMBLADOR
+    public static void despedir(int tipo){
+        
+//        Condicional para despedir el tipo de productor o ensamblador correspondiente
         switch(tipo){
+            
             case 1:
-                for(int i = productoresBotones.length; i >= 0; i++){
+                
+//            Despedir productor de botones
+//            Recorrer el array de los productores de botones de atrás hacia adelante
+//            Encontrar el primer productor activo
+//            Cambiar el atributo isContratado del productor a false y reducir el contador de productores de botones
+                
+                for(int i = productoresBotones.length - 1; i >= 0; i--){
                     if(productoresBotones[i] != null){
+                        if(productoresBotones[i].isIsContratado()){
                         productoresBotones[i].setIsContratado(false);
                         numProductoresBotones--;
                         break;
+                        }
                     }
                 }
                 break;
                 
             case 2:
-                for(int i = productoresPantallas.length; i >= 0; i++){
+                
+//            Despedir productor de pantallas
+//            Recorrer el array de los productores de pantallas de atrás hacia adelante
+//            Encontrar el primer productor activo
+//            Cambiar el atributo isContratado del productor a false y reducir el contador de productores de pantallas
+                
+                for(int i = productoresPantallas.length - 1; i >= 0; i--){
                     if(productoresPantallas[i] != null){
+                        if(productoresPantallas[i].isIsContratado()){
                         productoresPantallas[i].setIsContratado(false);
                         numProductoresPantallas--;
                         break;
+                        }
                     }
                 }
                 break;
                 
             case 3:
-                for(int i = productoresJoysticks.length; i >= 0; i++){
+                
+//            Despedir productor de joysticks
+//            Recorrer el array de los productores de joysticks de atrás hacia adelante
+//            Encontrar el primer productor activo
+//            Cambiar el atributo isContratado del productor a false y reducir el contador de productores de pantallas
+                
+                for(int i = productoresJoysticks.length - 1; i >= 0; i--){
                     if(productoresJoysticks[i] != null){
+                        if(productoresJoysticks[i].isIsContratado()){
                         productoresJoysticks[i].setIsContratado(false);
                         numProductoresJoysticks--;
                         break;
+                            
+                        }
                     }
                 }
                 break;
                 
             case 4:
-                for(int i = productoresTarjertasSD.length; i >= 0; i++){
+                
+//            Despedir productor de lectores de tarjetas SD
+//            Recorrer el array de los productores de lectores de tarjetas SD de atrás hacia adelante
+//            Encontrar el primer productor activo
+//            Cambiar el atributo isContratado del productor a false y reducir el contador de productores de lectores de tarjetas SD
+                
+                for(int i = productoresTarjertasSD.length - 1; i >= 0; i--){
                     if(productoresTarjertasSD[i] != null){
+                        if(productoresTarjertasSD[i].isIsContratado()){
                         productoresTarjertasSD[i].setIsContratado(false);
                         numProductoresTarjetasSD--;
                         break;
+                        }
                     }
                 }
                 break;
                 
             case 5:
-                for(int i = ensambladores.length; i >= 0; i++){
+                
+//            Despedir ensamblador
+//            Recorrer el array de los ensambladores de atrás hacia adelante
+//            Encontrar el primer ensamblador activo
+//            Cambiar el atributo isContratado del ensamblador a false y reducir el contador de ensambladores
+                
+                for(int i = ensambladores.length - 1; i >= 0; i--){
                     if(ensambladores[i] != null){
+                        if(ensambladores[i].isIsContratado()){
                         ensambladores[i].setIsContratado(false);
                         numEnsambladores--;
                         break;
+                            
+                        }
                     }
                 }
                 break;
                 
+//                En caso de error, mostrar un mensaje
             default:
                 JOptionPane.showMessageDialog(null, "Error, al despedir.", "ERROR DE DESPIDO", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
     
 }

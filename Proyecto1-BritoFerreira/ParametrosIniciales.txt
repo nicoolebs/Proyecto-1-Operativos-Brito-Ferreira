@@ -1,5 +1,5 @@
-Duración del día=1
-Días entre despachos=100
+Duración del día=2
+Días entre despachos=20
 Capacidad almacen de botones=45
 Capacidad almacen de pantallas=40
 Capacidad almacen de joysticks=20
@@ -12,6 +12,6 @@ Cantidad máxima productores de botones=3
 Cantidad máxima productores de pantallas=5
 Cantidad máxima productores de joysticks=4
 Cantidad máxima productores de lectores de tarjetas SD=4
-Cantidad inicial ensambladores=1
+Cantidad inicial ensambladores=0
 Cantidad máxima ensambladores=5
 
